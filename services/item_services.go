@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"github.com/abhishekbhar/bookstore-items-api/domain/items"
 	"github.com/abhishekbhar/bookstore-utils-go/rest_errors"
+	"github.com/abhishekbhar/bookstore-items-api/domain/queries"
 )
 
 var (
@@ -27,8 +28,18 @@ func (s *itemService) Create(item items.Item) (*items.Item, *rest_errors.RestErr
 }
 
 func (s *itemService) Get(id string) (*items.Item, *rest_errors.RestErr) {
-	return nil, rest_errors.NewRestError("implement me!!", http.StatusNotImplemented, "not_implemented")
+
+	item := items.Item{Id: id}
+
+	if err := item.Get() ; err != nil {
+		return nil, err
+	}
+	return &item, nil
 }
 
+func (s *itemService) Search(query queries.EsQuery) {
+	dao := items.item{}
+	dao.Search(query)
+}
 
 
